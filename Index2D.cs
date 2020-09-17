@@ -22,7 +22,7 @@
             if (!(obj is Index2D)) return false;
 
             Index2D p = (Index2D)obj;
-            return x == p.x & y == p.y;
+            return x == p.x && y == p.y;
         }
 
         public override int GetHashCode()
@@ -42,5 +42,6 @@
         }
 
         public static Index2D Zero { get { return new Index2D(0, 0); } }
+        
     }
 }

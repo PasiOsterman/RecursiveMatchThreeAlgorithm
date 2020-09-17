@@ -8,7 +8,7 @@ namespace MatchThree
         public List<List<PuzzleOrb>> AllMatches { get; } = new List<List<PuzzleOrb>>();
         public List<Match> Combos { get; } = new List<Match>();
         public PuzzleBoard Board { get; }
-        
+
         private List<PuzzleOrb> Traversed { get; } = new List<PuzzleOrb>();
 
         public PuzzleBoardController(PuzzleBoard board)
@@ -35,6 +35,12 @@ namespace MatchThree
 
         public void SwapOrbPlaces(Index2D from, Index2D to)
         {
+            if(!IsValidBoardIndex(from))
+                throw new System.Exception(message: "Invalid [from] board index " + from);
+
+            if(!IsValidBoardIndex(to))
+                throw new System.Exception(message: "Invalid [to] board index " + to);
+
             PuzzleOrb fromOrb = Board[from.y, from.x];
             PuzzleOrb toOrb = Board[to.y, to.x];
 
@@ -155,12 +161,20 @@ namespace MatchThree
             return boardString;
         }
 
-        private PuzzleOrb GetOrbWithIndex(Index2D index)
+        public bool IsValidBoardIndex(Index2D index)
         {
             if (index.x < 0 || index.x >= Board.Columns)
-                return null;
+                return false;
 
             if (index.y < 0 || index.y >= Board.Rows)
+                return false;
+
+            return true;
+        }
+
+        private PuzzleOrb GetOrbWithIndex(Index2D index)
+        {
+            if(!IsValidBoardIndex(index))
                 return null;
 
             return Board[index.y, index.x];
@@ -183,7 +197,7 @@ namespace MatchThree
         {
             AllMatches.Clear();
         }
-        
+
         public void ClearCombos()
         {
             Combos.Clear();
